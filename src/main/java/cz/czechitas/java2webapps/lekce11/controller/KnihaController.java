@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,14 +26,19 @@ public class KnihaController {
     this.service = service;
   }
 
-  @GetMapping
+  @GetMapping("")
   public Page<Kniha> index(Pageable pageable) {
     return service.seznam(pageable);
   }
 
-  @GetMapping(params = "vcetneStornovanych=true")
+  @GetMapping(path = "", params = "vcetneStornovanych=true")
   public Page<Kniha> vcetneStornovanych(Pageable pageable) {
     return service.seznamVcetneStornovanych(pageable);
+  }
+
+  @PostMapping("")
+  public Kniha pridat(@RequestBody Kniha kniha) {
+    return service.pridat(kniha);
   }
 
   @PostMapping("batch")
