@@ -5,4 +5,4 @@
 
 ## Odkazy
 
-* [Lekce 11](https://java.czechitas.cz/2021-jaro/java-2/lekce-11.html)
+* [Lekce 11](https://java.czechitas.cz/2022-podzim/java-2/lekce-11.html)
