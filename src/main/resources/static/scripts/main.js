@@ -150,7 +150,8 @@ const App = {
             </div>
             <div class="col-6 mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
-                <input type="text" class="form-control" id="isbn" v-model="detail.isbn">
+                <input type="text" class="form-control" id="isbn" v-model="detail.isbn" pattern="[0-9]{13}|[0-9]{9}[0-9X]">
+                <div class="fw-light hint">ISBN má 13 číslic, 10 číslic nebo 9 číslic a X.</div>
             </div>
         </div>
         <div class="d-flex justify-content-end">
