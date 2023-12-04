@@ -27,7 +27,7 @@ const App = {
     async nacistSeznam() {
       this.nacitam = true
       try {
-        const data = this.fetch(`/api/?vcetneStornovanych=${this.vcetneStornovanych}`)
+        const data = await this.fetch(`/api/?vcetneStornovanych=${this.vcetneStornovanych}`)
         this.knihy = data.content
       } catch (e) {
         alert(e)

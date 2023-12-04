@@ -41,7 +41,7 @@ public class KnihaController {
     return service.pridat(kniha);
   }
 
-  @PostMapping("batch")
+  @PostMapping("/batch")
   public List<Kniha> pridatDavkove(@RequestBody List<Kniha> kniha) {
     return service.pridatDavkove(kniha);
   }
