@@ -1,98 +1,98 @@
 const App = {
-    data() {
-        return {
-            nacitam: false,
-            vcetneStornovanych: false,
-            aktualniRok: new Date().getFullYear(),
-            knihy: [],
-            detail: null
-        }
-    },
-    methods: {
-        async nacistSeznam() {
-            this.nacitam = true
-            try {
-                const resp = await fetch(`/api/?vcetneStornovanych=${this.vcetneStornovanych}`)
-                const data = await resp.json()
-                this.knihy = data.content
-            } catch (e) {
-                alert(e)
-            }
-            this.nacitam = false
-        },
-        async ulozit(event) {
-            event.preventDefault();
-            if (this.detail.isbn === '') {
-                this.detail.isbn = null
-            }
+  data() {
+    return {
+      nacitam: false,
+      vcetneStornovanych: false,
+      aktualniRok: new Date().getFullYear(),
+      knihy: [],
+      detail: null
+    }
+  },
+  methods: {
+    async fetch(url, method = "GET", options = {}, body) {
+      options = options ?? {}
+      options.method = method
+      if (body) {
+        options.body = JSON.stringify(body)
+      }
+      options.headers = {
+        ...options.headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
 
-            let url, method
-            if (this.detail.id != null) {
-                url = `/api/${this.detail.id}`
-                method = 'PUT'
-            } else {
-                url = '/api/'
-                method = 'POSt'
-            }
-            try {
-                const resp = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.detail)
-                })
-                const data = await resp.json()
-                this.detail = null
-                this.nacistSeznam()
-            } catch (e) {
-                alert(e)
-            }
-        },
-        novaKniha() {
-            this.detail = {
-                nazev: '',
-                autor: '',
-                rokVydani: this.aktualniRok,
-                isbn: ''
-            }
-        },
-        upravit(id) {
-            this.detail = {...this.knihy.find(kniha => kniha.id === id)}
-        },
-        async smazat(id) {
-            try {
-                const resp = await fetch(`/api/${id}`, {
-                    method: 'DELETE'
-                })
-                const data = await resp.json()
-                this.nacistSeznam()
-            } catch (e) {
-                alert(e)
-            }
-        },
-        async obnovit(id) {
-            try {
-                const resp = await fetch(`/api/${id}/obnovit`, {
-                    method: 'POST'
-                })
-                const data = await resp.json()
-                this.nacistSeznam()
-            } catch (e) {
-                alert(e)
-            }
-        }
+      const resp = await fetch(url, options)
+      return await resp.json()
     },
-    watch: {
-        vcetneStornovanych() {
-            this.nacistSeznam()
-        }
+    async nacistSeznam() {
+      this.nacitam = true
+      try {
+        const data = this.fetch(`/api/?vcetneStornovanych=${this.vcetneStornovanych}`)
+        this.knihy = data.content
+      } catch (e) {
+        alert(e)
+      }
+      this.nacitam = false
     },
-    mounted() {
+    async ulozit(event) {
+      event.preventDefault();
+      if (this.detail.isbn === '') {
+        this.detail.isbn = null
+      }
+
+      let url, method
+      if (this.detail.id != null) {
+        url = `/api/${this.detail.id}`
+        method = 'PUT'
+      } else {
+        url = '/api/'
+        method = 'POSt'
+      }
+      try {
+        const data = await this.fetch(url, method, {}, this.detail)
+        this.detail = null
         this.nacistSeznam()
+      } catch (e) {
+        alert(e)
+      }
     },
-    template: `
+    novaKniha() {
+      this.detail = {
+        nazev: '',
+        autor: '',
+        rokVydani: this.aktualniRok,
+        isbn: ''
+      }
+    },
+    upravit(id) {
+      this.detail = {...this.knihy.find(kniha => kniha.id === id)}
+    },
+    async smazat(id) {
+      try {
+        const data = await this.fetch(`/api/${id}`, 'DELETE')
+        this.nacistSeznam()
+      } catch (e) {
+        alert(e)
+      }
+    },
+    async obnovit(id) {
+      try {
+        const data = await this.fetch(`/api/${id}/obnovit`, 'POST')
+        this.nacistSeznam()
+      } catch (e) {
+        alert(e)
+      }
+    }
+  },
+  watch: {
+    vcetneStornovanych() {
+      this.nacistSeznam()
+    }
+  },
+  mounted() {
+    this.nacistSeznam()
+  },
+  template: `
     <div v-if="nacitam" class="spinner-border" role="status">
         <span class="visually-hidden">Načítám data…</span>
     </div>
@@ -162,4 +162,4 @@ const App = {
 }
 
 Vue.createApp(App)
-    .mount("#app");
+  .mount("#app");

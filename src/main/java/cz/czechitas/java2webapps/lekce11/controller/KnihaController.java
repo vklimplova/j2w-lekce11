@@ -26,17 +26,17 @@ public class KnihaController {
     this.service = service;
   }
 
-  @GetMapping("")
+  @GetMapping("/")
   public Page<Kniha> index(Pageable pageable) {
     return service.seznam(pageable);
   }
 
-  @GetMapping(path = "", params = "vcetneStornovanych=true")
+  @GetMapping(path = "/", params = "vcetneStornovanych=true")
   public Page<Kniha> vcetneStornovanych(Pageable pageable) {
     return service.seznamVcetneStornovanych(pageable);
   }
 
-  @PostMapping("")
+  @PostMapping("/")
   public Kniha pridat(@RequestBody Kniha kniha) {
     return service.pridat(kniha);
   }
