@@ -30,6 +30,8 @@ public class Kniha {
   @Pattern(regexp = "[0-9]{13}|[0-9]{9}[0-9X]")
   private String isbn;
 
+ /* postárá se o práci s datama v databázi a pomocí vyjímky signalizuje, že data aktualizoval někdo jinej
+  optimistické uzamykání */
   @Version
   private int version;
 

@@ -5,11 +5,7 @@ import cz.czechitas.java2webapps.lekce11.service.KnihaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +35,21 @@ public class KnihaController {
   @PostMapping("/")
   public Kniha pridat(@RequestBody Kniha kniha) {
     return service.pridat(kniha);
+  }
+@PutMapping("/{id}")
+  public Kniha upravit(@PathVariable long id,@RequestBody Kniha kniha){
+    kniha.setId(id);
+    return service.upravit(kniha);
+  }
+
+  @DeleteMapping("/{id}")
+  public Kniha smazat(@PathVariable long id){
+    return service.smazat(id);
+  }
+
+  @PostMapping("/{id}")
+  public Kniha obnovit(@PathVariable long id){
+    return service.obnovit(id);
   }
 
   @PostMapping("/batch")

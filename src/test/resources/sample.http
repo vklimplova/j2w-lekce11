@@ -35,11 +35,19 @@ Content-Type: application/json
 ]
 
 ###
-POST http://localhost:8080/api/
+
+PUT http://localhost:8080/api/6
 Content-Type: application/json
 
 {
   "nazev": "Až delfín promluví",
   "autor": "Robert Merle",
-  "rokVydani": 1974
+  "rokVydani": 2019,
+  "version": 1
 }
+
+
+###
+GET http://localhost:8080/api/
+###
+DELETE http://localhost:8080/api/4
